@@ -1,7 +1,10 @@
 package com.androidmonk.quizapp;
 
+import com.google.firebase.firestore.DocumentId;
+
 public class QuizListModel {
 
+    @DocumentId
     private String quiz_id;
     private String name, desc, image, level, visibility;
     private long questions;
