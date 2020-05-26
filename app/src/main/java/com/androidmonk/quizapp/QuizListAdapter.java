@@ -10,6 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 public class QuizListAdapter extends RecyclerView.Adapter<QuizListAdapter.QuizViewHolder> {
@@ -30,6 +32,23 @@ public class QuizListAdapter extends RecyclerView.Adapter<QuizListAdapter.QuizVi
     @Override
     public void onBindViewHolder(@NonNull QuizViewHolder holder, int position) {
         holder.listTitle.setText(quizListModels.get(position).getName());
+
+        String imageUrl = quizListModels.get(position).getImage();
+
+        Glide.with(holder.itemView.getContext())
+                .load(imageUrl)
+                .centerCrop()
+                .placeholder(R.drawable.placeholder_image)
+                .into(holder.listImage);
+
+        String listDesc = quizListModels.get(position).getDesc();
+        if (listDesc.length()> 150){
+            listDesc = listDesc.substring(0, 150);
+        }
+
+        holder.listDesc.setText(listDesc + "...");
+        holder.listLevel.setText(quizListModels.get(position).getLevel());
+
     }
 
     @Override
