@@ -39,6 +39,7 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
 
     private Button detailsStartButton;
     private String quizId;
+    private long totalQuestions = 0;
 
     public DetailsFragment() {
         // Required empty public constructor
@@ -94,6 +95,7 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
 
                 //Assign value
                 quizId = quizListModels.get(position).getQuiz_id();
+                totalQuestions = quizListModels.get(position).getQuestions();
             }
         });
     }
@@ -103,7 +105,7 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
         switch (v.getId()){
             case R.id.details_start_btn:
                 DetailsFragmentDirections.ActionDetailsFragmentToQuizFragment action = DetailsFragmentDirections.actionDetailsFragmentToQuizFragment();
-                action.setPosition(position);
+                action.setTotalQuestions(totalQuestions);
                 action.setQuizid(quizId);
                 navController.navigate(action);
                 break;

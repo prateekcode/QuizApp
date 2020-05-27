@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -31,8 +32,12 @@ public class QuizFragment extends Fragment {
     public static final String TAG = "QUIZ_FRAGMENT_TAG";
 
 
+
+
     //Firebase Data
-    private List<QuestionModel> allQuestionsList;
+    private List<QuestionModel> allQuestionsList = new ArrayList<>();
+    private long totalQuestionToAnswer = 10;
+    private List<QuestionModel> questionsToAnswer= new ArrayList<>();
 
     public QuizFragment() {
         // Required empty public constructor
@@ -57,6 +62,7 @@ public class QuizFragment extends Fragment {
 
         //Get Quiz Id
         quizId = QuizFragmentArgs.fromBundle(getArguments()).getQuizid();
+        totalQuestionToAnswer = QuizFragmentArgs.fromBundle(getArguments()).getTotalQuestions();
 
         //Get All questions
         firebaseFirestore.collection("QuizList")
@@ -67,7 +73,7 @@ public class QuizFragment extends Fragment {
                 if (task.isSuccessful()){
                     allQuestionsList = task.getResult().toObjects(QuestionModel.class);
                     //task.getResult().toObjects(QuestionModel.class);
-                    Log.d(TAG, "Question List: " + allQuestionsList.get(0).getQuestion());
+                    //Log.d(TAG, "Question List: " + allQuestionsList.get(1).getQuestion());
 
                     //pickQuestions
                     pickQuestions();
@@ -81,5 +87,15 @@ public class QuizFragment extends Fragment {
     }
 
     private void pickQuestions() {
+        for (int i=0; i< totalQuestionToAnswer; i++){
+            int randomNumber = getRandomInteger(allQuestionsList.size() - 1, 0);
+            questionsToAnswer.add(allQuestionsList.get(randomNumber));
+            allQuestionsList.remove(randomNumber);
+            Log.d(TAG, "Question: " + i + ":" +  questionsToAnswer.get(i));
+        }
+    }
+
+    public static int getRandomInteger(int maximum, int minimum){
+        return ((int) (Math.random() + (maximum - minimum))) + minimum;
     }
 }
