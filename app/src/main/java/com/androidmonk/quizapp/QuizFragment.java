@@ -17,6 +17,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.List;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,6 +29,10 @@ public class QuizFragment extends Fragment {
     private String quizId;
     private TextView quizTitle;
     public static final String TAG = "QUIZ_FRAGMENT_TAG";
+
+
+    //Firebase Data
+    private List<QuestionModel> allQuestionsList;
 
     public QuizFragment() {
         // Required empty public constructor
@@ -59,13 +65,21 @@ public class QuizFragment extends Fragment {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()){
-                    task.getResult().toObjects(QuestionModel.class);
-                    Log.d(TAG, "Question List: " + task.getResult().toObjects(QuestionModel.class));
+                    allQuestionsList = task.getResult().toObjects(QuestionModel.class);
+                    //task.getResult().toObjects(QuestionModel.class);
+                    Log.d(TAG, "Question List: " + allQuestionsList.get(0).getQuestion());
+
+                    //pickQuestions
+                    pickQuestions();
+
                 }else {
                     //Error getting question
                     quizTitle.setText("Error Loading Data");
                 }
             }
         });
+    }
+
+    private void pickQuestions() {
     }
 }
