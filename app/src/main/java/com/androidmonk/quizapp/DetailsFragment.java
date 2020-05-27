@@ -99,7 +99,9 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.details_start_btn:
-                navController.navigate(R.id.action_detailsFragment_to_quizFragment);
+                DetailsFragmentDirections.ActionDetailsFragmentToQuizFragment action = DetailsFragmentDirections.actionDetailsFragmentToQuizFragment();
+                action.setPosition(position);
+                navController.navigate(action);
                 break;
         }
     }
