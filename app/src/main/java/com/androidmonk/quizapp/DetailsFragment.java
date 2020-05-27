@@ -38,6 +38,7 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
     private TextView detailsQuestions;
 
     private Button detailsStartButton;
+    private String quizId;
 
     public DetailsFragment() {
         // Required empty public constructor
@@ -91,6 +92,8 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
                         .placeholder(R.drawable.placeholder_image)
                         .into(detailsImage);
 
+                //Assign value
+                quizId = quizListModels.get(position).getQuiz_id();
             }
         });
     }
@@ -101,6 +104,7 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
             case R.id.details_start_btn:
                 DetailsFragmentDirections.ActionDetailsFragmentToQuizFragment action = DetailsFragmentDirections.actionDetailsFragmentToQuizFragment();
                 action.setPosition(position);
+                action.setQuizid(quizId);
                 navController.navigate(action);
                 break;
         }
