@@ -19,10 +19,12 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -32,7 +34,10 @@ import java.util.List;
 public class QuizFragment extends Fragment implements View.OnClickListener {
 
     private FirebaseFirestore firebaseFirestore;
+    private FirebaseAuth firebaseAuth;
     private String quizId;
+
+    private String currentUserId;
 
     public static final String TAG = "QUIZ_FRAGMENT_TAG";
 
@@ -79,6 +84,16 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        //Get User Id
+        if (firebaseAuth.getCurrentUser() != null){
+            currentUserId = firebaseAuth.getCurrentUser().getUid();
+        }else {
+            //Go Back to Home Page
+        }
+
 
         //UI Initialize
         quizTitle = view.findViewById(R.id.quiz_title);
@@ -266,6 +281,24 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
     }
 
     private void submitResults() {
+        HashMap<String, Object> resultMap = new HashMap<>();
+        resultMap.put("correct", correctAnswers);
+        resultMap.put("wrong", wrongAnswers);
+        resultMap.put("unanswered", notAnswered);
+
+
+        firebaseFirestore.collection("QuizList")
+                .document(quizId).collection("Results")
+                .document(currentUserId).set(resultMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()){
+                    //Go To Result Page
+                }else {
+                    //Show Error
+                }
+            }
+        });
     }
 
     private void resetOptions() {
