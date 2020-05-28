@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,6 +55,7 @@ public class QuizFragment extends Fragment {
     private List<QuestionModel> allQuestionsList = new ArrayList<>();
     private long totalQuestionToAnswer = 10;
     private List<QuestionModel> questionsToAnswer= new ArrayList<>();
+    private CountDownTimer countDownTimer;
 
     public QuizFragment() {
         // Required empty public constructor
@@ -117,7 +119,7 @@ public class QuizFragment extends Fragment {
     private void loadUI() {
         // Quiz Data Load, Load the UI Method
         quizTitle.setText("Quiz Data Loaded");
-        questionNumber.setText("1");
+
         questionText.setText("Load First Question");
 
         //Enabling Options
@@ -128,15 +130,53 @@ public class QuizFragment extends Fragment {
 
     }
 
-    private void loadQuestion(int i) {
+    private void loadQuestion(int quesNum) {
+
+        //Set Question Number
+        questionNumber.setText(quesNum);
 
         //Load Question Text
-        questionText.setText(questionsToAnswer.get(i).getQuestion());
+        questionText.setText(questionsToAnswer.get(quesNum).getQuestion());
 
         //Load Options
-        optionOneBtn.setText(questionsToAnswer.get(i).getOption_a());
-        optionTwoBtn.setText(questionsToAnswer.get(i).getOption_b());
-        optionThreeBtn.setText(questionsToAnswer.get(i).getOption_c());
+        optionOneBtn.setText(questionsToAnswer.get(quesNum).getOption_a());
+        optionTwoBtn.setText(questionsToAnswer.get(quesNum).getOption_b());
+        optionThreeBtn.setText(questionsToAnswer.get(quesNum).getOption_c());
+
+        //Start Question Timer
+        startTimer(quesNum);
+
+    }
+
+    private void startTimer(int questionNumber) {
+
+        //Set Timer Text
+        final Long timeToAnswer = questionsToAnswer.get(questionNumber).getTimer();
+        questionTime.setText(timeToAnswer.toString());
+
+        //Show Timer Progressbar
+        questionProgress.setVisibility(View.VISIBLE);
+
+        //Start Count down timer class
+        countDownTimer = new CountDownTimer(timeToAnswer*1000, 1000){
+
+            @Override
+            public void onTick(long millisUntilFinished) {
+                //Update UI
+                questionTime.setText(millisUntilFinished/1000 + "");
+
+                //Progress in Percent
+                Long percent = millisUntilFinished/(timeToAnswer*10);
+                questionProgress.setProgress(percent.intValue());
+            }
+
+            @Override
+            public void onFinish() {
+                //Time up
+            }
+        };
+
+        countDownTimer.start();
     }
 
     private void enableOptions() {
