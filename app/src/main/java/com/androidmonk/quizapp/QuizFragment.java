@@ -10,6 +10,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -28,9 +31,22 @@ public class QuizFragment extends Fragment {
 
     private FirebaseFirestore firebaseFirestore;
     private String quizId;
-    private TextView quizTitle;
+
     public static final String TAG = "QUIZ_FRAGMENT_TAG";
 
+
+    //UI Elements
+    private TextView quizTitle;
+    private Button optionOneBtn;
+    private Button optionTwoBtn;
+    private Button optionThreeBtn;
+    private Button nextBtn;
+    private ImageButton closeBtn;
+    private TextView questionFeedback;
+    private TextView questionText;
+    private TextView questionTime;
+    private ProgressBar questionProgress;
+    private TextView questionNumber;
 
 
 
@@ -55,10 +71,21 @@ public class QuizFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        //UI Initialize
+        quizTitle = view.findViewById(R.id.quiz_title);
+        optionOneBtn = view.findViewById(R.id.quiz_option_one);
+        optionTwoBtn = view.findViewById(R.id.quiz_option_two);
+        optionThreeBtn = view.findViewById(R.id.quiz_option_three);
+        nextBtn = view.findViewById(R.id.quiz_next_btn);
+        questionFeedback = view.findViewById(R.id.quiz_question_feedback);
+        questionText = view.findViewById(R.id.quiz_question);
+        questionTime = view.findViewById(R.id.quiz_question_time);
+        questionProgress = view.findViewById(R.id.quiz_question_progress);
+        questionNumber = view.findViewById(R.id.quiz_question_number);
+
+
         //Initialize Firestore
         firebaseFirestore = FirebaseFirestore.getInstance();
-        quizTitle = view.findViewById(R.id.quiz_title);
-
 
         //Get Quiz Id
         quizId = QuizFragmentArgs.fromBundle(getArguments()).getQuizid();
@@ -77,6 +104,7 @@ public class QuizFragment extends Fragment {
 
                     //pickQuestions
                     pickQuestions();
+                    loadUI();
 
                 }else {
                     //Error getting question
@@ -84,6 +112,32 @@ public class QuizFragment extends Fragment {
                 }
             }
         });
+    }
+
+    private void loadUI() {
+        // Quiz Data Load, Load the UI Method
+        quizTitle.setText("Quiz Data Loaded");
+        questionNumber.setText("1");
+        questionText.setText("Load First Question");
+
+        //Enabling Options
+        enableOptions();
+
+    }
+
+    private void enableOptions() {
+        optionOneBtn.setVisibility(View.VISIBLE);
+        optionTwoBtn.setVisibility(View.VISIBLE);
+        optionThreeBtn.setVisibility(View.VISIBLE);
+
+        //Enable Btn
+        optionOneBtn.setEnabled(true);
+        optionTwoBtn.setEnabled(true);
+        optionThreeBtn.setEnabled(true);
+
+        //Hide Feedback Text and Next Btn
+        questionFeedback.setVisibility(View.INVISIBLE);
+        nextBtn.setVisibility(View.INVISIBLE);
     }
 
     private void pickQuestions() {
