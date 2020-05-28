@@ -245,7 +245,26 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
                 break;
 
             case R.id.quiz_next_btn:
+                currentQuestion++;
+                loadQuestion(currentQuestion);
+                resetOptions();
+                break;
         }
+    }
+
+    private void resetOptions() {
+        optionOneBtn.setBackground(getResources().getDrawable(R.drawable.outline_light_btn_bg, null));
+        optionTwoBtn.setBackground(getResources().getDrawable(R.drawable.outline_light_btn_bg, null));
+        optionThreeBtn.setBackground(getResources().getDrawable(R.drawable.outline_light_btn_bg, null));
+
+
+        optionOneBtn.setTextColor(getResources().getColor(R.color.colorLightText, null));
+        optionTwoBtn.setTextColor(getResources().getColor(R.color.colorLightText, null));
+        optionThreeBtn.setTextColor(getResources().getColor(R.color.colorLightText, null));
+
+        questionFeedback.setVisibility(View.INVISIBLE);
+        nextBtn.setVisibility(View.INVISIBLE);
+        nextBtn.setEnabled(false);
     }
 
     private void verifyAnswer(Button selectedAnswer) {
