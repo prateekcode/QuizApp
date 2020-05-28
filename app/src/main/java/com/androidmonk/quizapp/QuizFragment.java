@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -144,12 +145,12 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
         questionNumber.setText(quesNum);
 
         //Load Question Text
-        questionText.setText(questionsToAnswer.get(quesNum).getQuestion());
+        questionText.setText(questionsToAnswer.get(quesNum-1).getQuestion());
 
         //Load Options
-        optionOneBtn.setText(questionsToAnswer.get(quesNum).getOption_a());
-        optionTwoBtn.setText(questionsToAnswer.get(quesNum).getOption_b());
-        optionThreeBtn.setText(questionsToAnswer.get(quesNum).getOption_c());
+        optionOneBtn.setText(questionsToAnswer.get(quesNum-1).getOption_a());
+        optionTwoBtn.setText(questionsToAnswer.get(quesNum-1).getOption_b());
+        optionThreeBtn.setText(questionsToAnswer.get(quesNum-1).getOption_c());
 
 
         //Question Loaded, Set Can Answer
@@ -164,7 +165,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
     private void startTimer(int questionNumber) {
 
         //Set Timer Text
-        final Long timeToAnswer = questionsToAnswer.get(questionNumber).getTimer();
+        final Long timeToAnswer = questionsToAnswer.get(questionNumber-1).getTimer();
         questionTime.setText(timeToAnswer.toString());
 
         //Show Timer Progressbar
@@ -227,27 +228,35 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.quiz_option_one:
-                answerSelected(optionOneBtn.getText());
+                verifyAnswer(optionOneBtn);
                 break;
 
             case R.id.quiz_option_two:
-                answerSelected(optionTwoBtn.getText());
+                verifyAnswer(optionTwoBtn);
                 break;
 
             case R.id.quiz_option_three:
-                answerSelected(optionThreeBtn.getText());
+                verifyAnswer(optionThreeBtn);
                 break;
         }
     }
 
-    private void answerSelected(CharSequence selectedAnswer) {
+    private void verifyAnswer(Button selectedAnswer) {
         //Check Answer
         if (canAnswer){
-            if (questionsToAnswer.get(currentQuestion).getAnswer().equals(selectedAnswer)){
+            if (questionsToAnswer.get(currentQuestion-1).getAnswer().equals(selectedAnswer.getText())){
                 //Correct Answer
+                selectedAnswer.setBackground(getResources().getDrawable(R.drawable.correct_answer_btn_bg, null));
             }else {
                 //Wrong Answer
+                selectedAnswer.setBackground(getResources().getDrawable(R.drawable.wrong_answer_btn_bg, null));
+
             }
+            //Set can answer to false
+            canAnswer = false;
+
+            //Stop the Timer
+            countDownTimer.cancel();
 
         }
     }
