@@ -53,6 +53,9 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
     private boolean canAnswer = false;
     private int currentQuestion =0;
 
+    private int correctAnswers = 0;
+    private int wrongAnswers = 0;
+
 
     //Firebase Data
     private List<QuestionModel> allQuestionsList = new ArrayList<>();
@@ -123,6 +126,8 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
         optionOneBtn.setOnClickListener(this);
         optionTwoBtn.setOnClickListener(this);
         optionThreeBtn.setOnClickListener(this);
+
+        nextBtn.setOnClickListener(this);
     }
 
     private void loadUI() {
@@ -238,18 +243,35 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
             case R.id.quiz_option_three:
                 verifyAnswer(optionThreeBtn);
                 break;
+
+            case R.id.quiz_next_btn:
         }
     }
 
     private void verifyAnswer(Button selectedAnswer) {
+        //Set Answer Text Color
+        selectedAnswer.setTextColor(getResources().getColor(R.color.colorDark, null));
+
         //Check Answer
         if (canAnswer){
             if (questionsToAnswer.get(currentQuestion-1).getAnswer().equals(selectedAnswer.getText())){
                 //Correct Answer
+                correctAnswers++;
                 selectedAnswer.setBackground(getResources().getDrawable(R.drawable.correct_answer_btn_bg, null));
+
+                //Set Feedback Text
+                questionFeedback.setText("Correct Answer");
+                questionFeedback.setTextColor(getResources().getColor(R.color.colorPrimary, null));
             }else {
                 //Wrong Answer
+                wrongAnswers++;
                 selectedAnswer.setBackground(getResources().getDrawable(R.drawable.wrong_answer_btn_bg, null));
+
+
+                //Set Feedback Text
+                questionFeedback.setText("Wrong Answer \n\n Correct Answer : " +
+                        questionsToAnswer.get(currentQuestion-1).getAnswer());
+                questionFeedback.setTextColor(getResources().getColor(R.color.colorAccent, null));
 
             }
             //Set can answer to false
@@ -258,6 +280,15 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
             //Stop the Timer
             countDownTimer.cancel();
 
+            //Show Next Button
+            showNextBtn();
+
         }
+    }
+
+    private void showNextBtn() {
+        questionFeedback.setVisibility(View.VISIBLE);
+        nextBtn.setVisibility(View.VISIBLE);
+        nextBtn.setEnabled(true);
     }
 }
