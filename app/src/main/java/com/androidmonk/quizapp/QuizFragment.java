@@ -122,7 +122,21 @@ public class QuizFragment extends Fragment {
 
         //Enabling Options
         enableOptions();
+        
+        //Load First Question
+        loadQuestion(1);
 
+    }
+
+    private void loadQuestion(int i) {
+
+        //Load Question Text
+        questionText.setText(questionsToAnswer.get(i).getQuestion());
+
+        //Load Options
+        optionOneBtn.setText(questionsToAnswer.get(i).getOption_a());
+        optionTwoBtn.setText(questionsToAnswer.get(i).getOption_b());
+        optionThreeBtn.setText(questionsToAnswer.get(i).getOption_c());
     }
 
     private void enableOptions() {
@@ -138,7 +152,7 @@ public class QuizFragment extends Fragment {
         //Hide Feedback Text and Next Btn
         questionFeedback.setVisibility(View.INVISIBLE);
         nextBtn.setVisibility(View.INVISIBLE);
-
+        nextBtn.setEnabled(false);
 
     }
 
