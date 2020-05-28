@@ -138,6 +138,8 @@ public class QuizFragment extends Fragment {
         //Hide Feedback Text and Next Btn
         questionFeedback.setVisibility(View.INVISIBLE);
         nextBtn.setVisibility(View.INVISIBLE);
+
+
     }
 
     private void pickQuestions() {
