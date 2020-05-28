@@ -49,6 +49,8 @@ public class QuizFragment extends Fragment {
     private ProgressBar questionProgress;
     private TextView questionNumber;
 
+    private boolean canAnswer = false;
+
 
 
     //Firebase Data
@@ -143,6 +145,10 @@ public class QuizFragment extends Fragment {
         optionTwoBtn.setText(questionsToAnswer.get(quesNum).getOption_b());
         optionThreeBtn.setText(questionsToAnswer.get(quesNum).getOption_c());
 
+
+        //Question Loaded, Set Can Answer
+        canAnswer = true;
+
         //Start Question Timer
         startTimer(quesNum);
 
@@ -172,7 +178,8 @@ public class QuizFragment extends Fragment {
 
             @Override
             public void onFinish() {
-                //Time up
+                //Time up, Cannot Answer
+                canAnswer = false;
             }
         };
 
