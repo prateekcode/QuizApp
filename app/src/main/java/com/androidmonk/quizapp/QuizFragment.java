@@ -55,6 +55,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
 
     private int correctAnswers = 0;
     private int wrongAnswers = 0;
+    private int notAnswered = 0;
 
 
     //Firebase Data
@@ -193,6 +194,12 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
             public void onFinish() {
                 //Time up, Cannot Answer
                 canAnswer = false;
+
+
+                questionFeedback.setText("Time Up!");
+                questionFeedback.setTextColor(getResources().getColor(R.color.colorAccent, null));
+                notAnswered++;
+                showNextBtn();
             }
         };
 
@@ -245,11 +252,20 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
                 break;
 
             case R.id.quiz_next_btn:
-                currentQuestion++;
-                loadQuestion(currentQuestion);
-                resetOptions();
+                if (currentQuestion == totalQuestionToAnswer){
+                    //Load Results
+                    submitResults();
+                }else{
+                    currentQuestion++;
+                    loadQuestion(currentQuestion);
+                    resetOptions();
+                }
+
                 break;
         }
+    }
+
+    private void submitResults() {
     }
 
     private void resetOptions() {
@@ -268,11 +284,13 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
     }
 
     private void verifyAnswer(Button selectedAnswer) {
-        //Set Answer Text Color
-        selectedAnswer.setTextColor(getResources().getColor(R.color.colorDark, null));
+
 
         //Check Answer
         if (canAnswer){
+            //Set Answer Text Color
+            selectedAnswer.setTextColor(getResources().getColor(R.color.colorDark, null));
+
             if (questionsToAnswer.get(currentQuestion-1).getAnswer().equals(selectedAnswer.getText())){
                 //Correct Answer
                 correctAnswers++;
@@ -306,6 +324,9 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
     }
 
     private void showNextBtn() {
+        if (currentQuestion == totalQuestionToAnswer){
+            nextBtn.setText("Submit Results");
+        }
         questionFeedback.setVisibility(View.VISIBLE);
         nextBtn.setVisibility(View.VISIBLE);
         nextBtn.setEnabled(true);
