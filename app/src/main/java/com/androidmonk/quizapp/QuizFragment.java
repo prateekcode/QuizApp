@@ -28,7 +28,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class QuizFragment extends Fragment {
+public class QuizFragment extends Fragment implements View.OnClickListener {
 
     private FirebaseFirestore firebaseFirestore;
     private String quizId;
@@ -50,7 +50,7 @@ public class QuizFragment extends Fragment {
     private TextView questionNumber;
 
     private boolean canAnswer = false;
-
+    private int currentQuestion =0;
 
 
     //Firebase Data
@@ -116,6 +116,12 @@ public class QuizFragment extends Fragment {
                 }
             }
         });
+
+
+        //Set Button Click Listener
+        optionOneBtn.setOnClickListener(this);
+        optionTwoBtn.setOnClickListener(this);
+        optionThreeBtn.setOnClickListener(this);
     }
 
     private void loadUI() {
@@ -148,6 +154,7 @@ public class QuizFragment extends Fragment {
 
         //Question Loaded, Set Can Answer
         canAnswer = true;
+        currentQuestion = quesNum;
 
         //Start Question Timer
         startTimer(quesNum);
@@ -214,5 +221,34 @@ public class QuizFragment extends Fragment {
 
     public static int getRandomInteger(int maximum, int minimum){
         return ((int) (Math.random() + (maximum - minimum))) + minimum;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.quiz_option_one:
+                answerSelected(optionOneBtn.getText());
+                break;
+
+            case R.id.quiz_option_two:
+                answerSelected(optionTwoBtn.getText());
+                break;
+
+            case R.id.quiz_option_three:
+                answerSelected(optionThreeBtn.getText());
+                break;
+        }
+    }
+
+    private void answerSelected(CharSequence selectedAnswer) {
+        //Check Answer
+        if (canAnswer){
+            if (questionsToAnswer.get(currentQuestion).getAnswer().equals(selectedAnswer)){
+                //Correct Answer
+            }else {
+                //Wrong Answer
+            }
+
+        }
     }
 }
