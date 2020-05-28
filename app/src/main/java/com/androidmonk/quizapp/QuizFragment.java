@@ -158,7 +158,7 @@ public class QuizFragment extends Fragment {
         questionProgress.setVisibility(View.VISIBLE);
 
         //Start Count down timer class
-        countDownTimer = new CountDownTimer(timeToAnswer*1000, 1000){
+        countDownTimer = new CountDownTimer(timeToAnswer*1000, 10){
 
             @Override
             public void onTick(long millisUntilFinished) {
