@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +15,10 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 
@@ -57,5 +61,61 @@ public class ResultFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        navController = Navigation.findNavController(view);
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        //Get User ID
+        if(firebaseAuth.getCurrentUser() != null){
+            currentUserId = firebaseAuth.getCurrentUser().getUid();
+        } else {
+            //Go Back to Home Page
+        }
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        quizId = ResultFragmentArgs.fromBundle(getArguments()).getQuizId();
+
+        //Initialize UI Elements
+        resultCorrect = view.findViewById(R.id.results_correct_text);
+        resultWrong = view.findViewById(R.id.results_wrong_text);
+        resultMissed = view.findViewById(R.id.results_missed_text);
+
+        resultHomeBtn = view.findViewById(R.id.results_home_btn);
+        resultHomeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navController.navigate(R.id.action_resultFragment_to_listFragment);
+            }
+        });
+
+        resultPercent = view.findViewById(R.id.results_percent);
+        resultProgress = view.findViewById(R.id.results_progress);
+
+
+        //Get Results
+        firebaseFirestore.collection("QuizList")
+                .document(quizId).collection("Results")
+                .document(currentUserId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    DocumentSnapshot result = task.getResult();
+
+                    Long correct = result.getLong("correct");
+                    Long wrong = result.getLong("wrong");
+                    Long missed = result.getLong("unanswered");
+
+                    resultCorrect.setText(correct.toString());
+                    resultWrong.setText(wrong.toString());
+                    resultMissed.setText(missed.toString());
+
+                    //Calculate Progress
+                    Long total = correct + wrong + missed;
+                    Long percent = (correct*100)/total;
+
+                    resultPercent.setText(percent + "%");
+                    resultProgress.setProgress(percent.intValue());
+                }
+            }
+        });
     }
 }
