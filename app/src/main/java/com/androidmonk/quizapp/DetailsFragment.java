@@ -19,6 +19,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
 
@@ -36,10 +41,15 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
     private TextView detailsDesc;
     private TextView detailsDiff;
     private TextView detailsQuestions;
+    private TextView detailsScore;
 
     private Button detailsStartButton;
     private String quizId;
     private long totalQuestions = 0;
+
+    private FirebaseFirestore firebaseFirestore;
+    private FirebaseAuth firebaseAuth;
+    private String quizName;
 
     public DetailsFragment() {
         // Required empty public constructor
@@ -69,8 +79,14 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
         detailsDiff = view.findViewById(R.id.details_difficulty_text);
         detailsQuestions = view.findViewById(R.id.details_questions_text);
         detailsStartButton = view.findViewById(R.id.details_start_btn);
+        detailsScore = view.findViewById(R.id.details_score_text);
+
 
         detailsStartButton.setOnClickListener(this);
+
+        //To Load Previous Result
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
 
     }
 
@@ -95,7 +111,37 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
 
                 //Assign value
                 quizId = quizListModels.get(position).getQuiz_id();
+                quizName = quizListModels.get(position).getName();
                 totalQuestions = quizListModels.get(position).getQuestions();
+                
+                loadResultsData();
+            }
+        });
+    }
+
+    private void loadResultsData() {
+        firebaseFirestore.collection("QuizList")
+                .document(quizId).collection("Results")
+                .document(firebaseAuth.getCurrentUser().getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()){
+                    DocumentSnapshot document = task.getResult();
+                    if (document != null && document.exists()){
+                        //Get Result
+                        Long correct = document.getLong("correct");
+                        Long wrong = document.getLong("wrong");
+                        Long missed = document.getLong("unanswered");
+
+                        //Calculating Progress
+                        Long total = correct + wrong + missed;
+                        Long percent = (correct*100)/total;
+                        detailsScore.setText(percent + "%");
+                    }else {
+                        //Document doesn't exist
+                    }
+                }
+
             }
         });
     }
@@ -106,6 +152,7 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
             case R.id.details_start_btn:
                 DetailsFragmentDirections.ActionDetailsFragmentToQuizFragment action = DetailsFragmentDirections.actionDetailsFragmentToQuizFragment();
                 action.setTotalQuestions(totalQuestions);
+                action.setQuizName(quizName);
                 action.setQuizid(quizId);
                 navController.navigate(action);
                 break;
