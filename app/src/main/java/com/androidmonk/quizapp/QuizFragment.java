@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -37,7 +39,10 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
     private FirebaseAuth firebaseAuth;
     private String quizId;
 
+    private NavController navController;
+
     private String currentUserId;
+    private String quizName;
 
     public static final String TAG = "QUIZ_FRAGMENT_TAG";
 
@@ -65,7 +70,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
 
     //Firebase Data
     private List<QuestionModel> allQuestionsList = new ArrayList<>();
-    private long totalQuestionToAnswer = 10;
+    private long totalQuestionToAnswer = 0L;
     private List<QuestionModel> questionsToAnswer= new ArrayList<>();
     private CountDownTimer countDownTimer;
 
@@ -84,6 +89,8 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        navController = Navigation.findNavController(view);
 
 
         firebaseAuth = FirebaseAuth.getInstance();
@@ -113,6 +120,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
 
         //Get Quiz Id
         quizId = QuizFragmentArgs.fromBundle(getArguments()).getQuizid();
+        quizName = QuizFragmentArgs.fromBundle(getArguments()).getQuizName();
         totalQuestionToAnswer = QuizFragmentArgs.fromBundle(getArguments()).getTotalQuestions();
 
         //Get All questions
@@ -148,7 +156,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
 
     private void loadUI() {
         // Quiz Data Load, Load the UI Method
-        quizTitle.setText("Quiz Data Loaded");
+        quizTitle.setText(quizName);
 
         questionText.setText("Load First Question");
 
@@ -163,7 +171,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
     private void loadQuestion(int quesNum) {
 
         //Set Question Number
-        questionNumber.setText(quesNum);
+        questionNumber.setText(quesNum + "");
 
         //Load Question Text
         questionText.setText(questionsToAnswer.get(quesNum-1).getQuestion());
@@ -294,8 +302,12 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()){
                     //Go To Result Page
+                    QuizFragmentDirections.ActionQuizFragmentToResultFragment action = QuizFragmentDirections.actionQuizFragmentToResultFragment();
+                    action.setQuizId(quizId);
+                    navController.navigate(action);
                 }else {
                     //Show Error
+                    quizTitle.setText(task.getException().getMessage());
                 }
             }
         });

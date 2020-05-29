@@ -65,10 +65,19 @@
             android:name="total_questions"
             app:argType="long"
             android:defaultValue="0L" />
+        <argument
+            android:name="quizName"
+            app:argType="string"
+            android:defaultValue="null" />
     </fragment>
     <fragment
         android:id="@+id/resultFragment"
         android:name="com.androidmonk.quizapp.ResultFragment"
         android:label="fragment_result"
-        tools:layout="@layout/fragment_result" />
+        tools:layout="@layout/fragment_result" >
+        <argument
+            android:name="quizId"
+            app:argType="string"
+            android:defaultValue="null" />
+    </fragment>
 </navigation>
