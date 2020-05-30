@@ -20,7 +20,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ProgressBar;
 
 import com.androidmonk.quizapp.ListFragmentDirections;
-import com.androidmonk.quizapp.QuizListAdapter;
+import com.androidmonk.quizapp.Adapter.QuizListAdapter;
 import com.androidmonk.quizapp.Model.QuizListModel;
 import com.androidmonk.quizapp.ViewModel.QuizListViewModel;
 import com.androidmonk.quizapp.R;
