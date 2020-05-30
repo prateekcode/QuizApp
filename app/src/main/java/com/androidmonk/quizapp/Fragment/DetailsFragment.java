@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +20,7 @@ import android.widget.TextView;
 import com.androidmonk.quizapp.DetailsFragmentArgs;
 import com.androidmonk.quizapp.DetailsFragmentDirections;
 import com.androidmonk.quizapp.QuizListModel;
-import com.androidmonk.quizapp.QuizListViewModel;
+import com.androidmonk.quizapp.ViewModel.QuizListViewModel;
 import com.androidmonk.quizapp.R;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
