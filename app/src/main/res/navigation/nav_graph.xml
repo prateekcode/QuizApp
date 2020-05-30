@@ -34,7 +34,7 @@
     </fragment>
     <fragment
         android:id="@+id/detailsFragment"
-        android:name="com.androidmonk.quizapp.DetailsFragment"
+        android:name="com.androidmonk.quizapp.Fragment.DetailsFragment"
         android:label="fragment_details"
         tools:layout="@layout/fragment_details" >
         <action

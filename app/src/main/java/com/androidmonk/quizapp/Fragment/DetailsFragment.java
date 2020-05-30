@@ -1,4 +1,4 @@
-package com.androidmonk.quizapp;
+package com.androidmonk.quizapp.Fragment;
 
 import android.os.Bundle;
 
@@ -18,6 +18,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.androidmonk.quizapp.DetailsFragmentArgs;
+import com.androidmonk.quizapp.DetailsFragmentDirections;
+import com.androidmonk.quizapp.QuizListModel;
+import com.androidmonk.quizapp.QuizListViewModel;
+import com.androidmonk.quizapp.R;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
