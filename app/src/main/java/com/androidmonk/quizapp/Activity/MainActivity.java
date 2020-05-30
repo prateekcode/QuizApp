@@ -1,8 +1,10 @@
-package com.androidmonk.quizapp;
+package com.androidmonk.quizapp.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.androidmonk.quizapp.R;
 
 public class MainActivity extends AppCompatActivity {
 
