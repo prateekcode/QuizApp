@@ -19,7 +19,7 @@ import android.widget.TextView;
 
 import com.androidmonk.quizapp.DetailsFragmentArgs;
 import com.androidmonk.quizapp.DetailsFragmentDirections;
-import com.androidmonk.quizapp.QuizListModel;
+import com.androidmonk.quizapp.Model.QuizListModel;
 import com.androidmonk.quizapp.ViewModel.QuizListViewModel;
 import com.androidmonk.quizapp.R;
 import com.bumptech.glide.Glide;

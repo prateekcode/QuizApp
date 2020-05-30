@@ -1,10 +1,10 @@
-package com.androidmonk.quizapp;
+package com.androidmonk.quizapp.Firebase;
 
 import androidx.annotation.NonNull;
 
+import com.androidmonk.quizapp.Model.QuizListModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;

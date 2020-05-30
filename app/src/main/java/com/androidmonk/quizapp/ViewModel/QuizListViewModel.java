@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.androidmonk.quizapp.FirebaseRepository;
-import com.androidmonk.quizapp.QuizListModel;
+import com.androidmonk.quizapp.Firebase.FirebaseRepository;
+import com.androidmonk.quizapp.Model.QuizListModel;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.androidmonk.quizapp.Question;
+package com.androidmonk.quizapp.Model;
 
 import com.google.firebase.firestore.DocumentId;
 

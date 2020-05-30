@@ -18,7 +18,7 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.androidmonk.quizapp.Question.QuestionModel;
+import com.androidmonk.quizapp.Model.QuestionModel;
 import com.androidmonk.quizapp.QuizFragmentArgs;
 import com.androidmonk.quizapp.QuizFragmentDirections;
 import com.androidmonk.quizapp.R;
