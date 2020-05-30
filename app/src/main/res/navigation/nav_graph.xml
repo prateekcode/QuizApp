@@ -21,7 +21,7 @@
     </fragment>
     <fragment
         android:id="@+id/listFragment"
-        android:name="com.androidmonk.quizapp.ListFragment"
+        android:name="com.androidmonk.quizapp.Fragment.ListFragment"
         android:label="fragment_list"
         tools:layout="@layout/fragment_list" >
         <action
