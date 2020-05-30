@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/startFragment"
-        android:name="com.androidmonk.quizapp.StartFragment"
+        android:name="com.androidmonk.quizapp.Fragment.StartFragment"
         android:label="fragment_start"
         tools:layout="@layout/fragment_start" >
         <action
