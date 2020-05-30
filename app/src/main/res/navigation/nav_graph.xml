@@ -76,7 +76,7 @@
     </fragment>
     <fragment
         android:id="@+id/resultFragment"
-        android:name="com.androidmonk.quizapp.ResultFragment"
+        android:name="com.androidmonk.quizapp.Fragment.ResultFragment"
         android:label="fragment_result"
         tools:layout="@layout/fragment_result" >
         <argument

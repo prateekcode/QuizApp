@@ -1,4 +1,4 @@
-package com.androidmonk.quizapp;
+package com.androidmonk.quizapp.Fragment;
 
 import android.os.Bundle;
 
@@ -15,6 +15,8 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.androidmonk.quizapp.R;
+import com.androidmonk.quizapp.ResultFragmentArgs;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
