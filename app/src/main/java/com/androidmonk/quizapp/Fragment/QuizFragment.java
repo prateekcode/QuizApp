@@ -186,7 +186,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
         optionOneBtn.setText(questionsToAnswer.get(quesNum-1).getOption_a());
         optionTwoBtn.setText(questionsToAnswer.get(quesNum-1).getOption_b());
         optionThreeBtn.setText(questionsToAnswer.get(quesNum-1).getOption_c());
-
+        optionFourBtn.setText(questionsToAnswer.get(quesNum-1));
 
 
         //Question Loaded, Set Can Answer
@@ -240,11 +240,13 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
         optionOneBtn.setVisibility(View.VISIBLE);
         optionTwoBtn.setVisibility(View.VISIBLE);
         optionThreeBtn.setVisibility(View.VISIBLE);
+        optionFourBtn.setVisibility(View.VISIBLE);
 
         //Enable Btn
         optionOneBtn.setEnabled(true);
         optionTwoBtn.setEnabled(true);
         optionThreeBtn.setEnabled(true);
+        optionFourBtn.setEnabled(true);
 
         //Hide Feedback Text and Next Btn
         questionFeedback.setVisibility(View.INVISIBLE);
@@ -280,6 +282,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
             case R.id.quiz_option_three:
                 verifyAnswer(optionThreeBtn);
                 break;
+
 
             case R.id.quiz_next_btn:
                 if (currentQuestion == totalQuestionToAnswer){
