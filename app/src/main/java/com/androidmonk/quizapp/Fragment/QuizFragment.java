@@ -55,6 +55,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
     private Button optionOneBtn;
     private Button optionTwoBtn;
     private Button optionThreeBtn;
+    private Button optionFourBtn;
     private Button nextBtn;
     private ImageButton closeBtn;
     private TextView questionFeedback;
@@ -110,6 +111,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
         optionOneBtn = view.findViewById(R.id.quiz_option_one);
         optionTwoBtn = view.findViewById(R.id.quiz_option_two);
         optionThreeBtn = view.findViewById(R.id.quiz_option_three);
+        optionFourBtn = view.findViewById(R.id.quiz_option_four);
         nextBtn = view.findViewById(R.id.quiz_next_btn);
         questionFeedback = view.findViewById(R.id.quiz_question_feedback);
         questionText = view.findViewById(R.id.quiz_question);
@@ -153,6 +155,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
         optionOneBtn.setOnClickListener(this);
         optionTwoBtn.setOnClickListener(this);
         optionThreeBtn.setOnClickListener(this);
+        optionFourBtn.setOnClickListener(this);
 
         nextBtn.setOnClickListener(this);
     }
@@ -183,6 +186,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
         optionOneBtn.setText(questionsToAnswer.get(quesNum-1).getOption_a());
         optionTwoBtn.setText(questionsToAnswer.get(quesNum-1).getOption_b());
         optionThreeBtn.setText(questionsToAnswer.get(quesNum-1).getOption_c());
+
 
 
         //Question Loaded, Set Can Answer
