@@ -6,18 +6,19 @@ public class QuestionModel {
 
     @DocumentId
     private String questionId;
-    private String question, option_a, option_b, option_c, answer;
+    private String question, option_a, option_b, option_c, option_d, answer;
     private long timer;
 
     public QuestionModel() {
     }
 
-    public QuestionModel(String questionId, String question, String option_a, String option_b, String option_c, String answer, long timer) {
+    public QuestionModel(String questionId, String question, String option_a, String option_b, String option_c, String option_d, String answer, long timer) {
         this.questionId = questionId;
         this.question = question;
         this.option_a = option_a;
         this.option_b = option_b;
         this.option_c = option_c;
+        this.option_d = option_d;
         this.answer = answer;
         this.timer = timer;
     }
@@ -60,6 +61,14 @@ public class QuestionModel {
 
     public void setOption_c(String option_c) {
         this.option_c = option_c;
+    }
+
+    public String getOption_d() {
+        return option_d;
+    }
+
+    public void setOption_d(String option_d) {
+        this.option_d = option_d;
     }
 
     public String getAnswer() {

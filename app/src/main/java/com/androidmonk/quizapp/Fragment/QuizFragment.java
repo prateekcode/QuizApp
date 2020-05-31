@@ -186,7 +186,7 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
         optionOneBtn.setText(questionsToAnswer.get(quesNum-1).getOption_a());
         optionTwoBtn.setText(questionsToAnswer.get(quesNum-1).getOption_b());
         optionThreeBtn.setText(questionsToAnswer.get(quesNum-1).getOption_c());
-        optionFourBtn.setText(questionsToAnswer.get(quesNum-1));
+        optionFourBtn.setText(questionsToAnswer.get(quesNum-1).getOption_d());
 
 
         //Question Loaded, Set Can Answer
@@ -330,11 +330,13 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
         optionOneBtn.setBackground(getResources().getDrawable(R.drawable.outline_light_btn_bg, null));
         optionTwoBtn.setBackground(getResources().getDrawable(R.drawable.outline_light_btn_bg, null));
         optionThreeBtn.setBackground(getResources().getDrawable(R.drawable.outline_light_btn_bg, null));
+        optionFourBtn.setBackground(getResources().getDrawable(R.drawable.outline_light_btn_bg, null));
 
 
         optionOneBtn.setTextColor(getResources().getColor(R.color.colorLightText, null));
         optionTwoBtn.setTextColor(getResources().getColor(R.color.colorLightText, null));
         optionThreeBtn.setTextColor(getResources().getColor(R.color.colorLightText, null));
+        optionFourBtn.setTextColor(getResources().getColor(R.color.colorLightText, null));
 
         questionFeedback.setVisibility(View.INVISIBLE);
         nextBtn.setVisibility(View.INVISIBLE);
