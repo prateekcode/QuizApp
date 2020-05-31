@@ -283,6 +283,9 @@ public class QuizFragment extends Fragment implements View.OnClickListener {
                 verifyAnswer(optionThreeBtn);
                 break;
 
+            case R.id.quiz_option_four:
+                verifyAnswer(optionFourBtn);
+                break;
 
             case R.id.quiz_next_btn:
                 if (currentQuestion == totalQuestionToAnswer){
